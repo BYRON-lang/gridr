@@ -14,7 +14,7 @@ const { dependencies = {}, devDependencies = {} } = pkg as any as {
   devDependencies: PkgDep;
   [key: string]: unknown;
 };
-errorOnDuplicatesPkgDeps(devDependencies, dependencies);
+import { staticAdapter } from '@builder.io/qwik-city-static/adapters';
 
 /**
  * Note that Vite normally starts from `index.html` but the qwikCity plugin makes start at `src/entry.ssr.tsx` instead.

@@ -39,6 +39,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
-    "firebase": "^12.3.0"
+    "firebase": "^12.3.0",
+    "@builder.io/qwik-city-static": "^1.16.1"
   }
 }

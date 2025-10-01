@@ -1,5 +1,5 @@
 import { component$, useSignal, useVisibleTask$, useTask$ } from '@builder.io/qwik';
-import { routeLoader$, type DocumentHead, Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { routeLoader$, type DocumentHead, Link, useNavigate } from '@builder.io/qwik-city';
 import { getWebsiteById, type Website, incrementWebsiteViews } from '~/services/websiteService';
 
 // Create a route loader to fetch website data
@@ -16,16 +16,16 @@ export default component$(() => {
   const websiteData = useWebsiteData();
   const website = useSignal<Website | null>(null);
   const nav = useNavigate();
-  const categoryLinks = useSignal<Array<{href: string, text: string}>>([]);
-  const location = useLocation();
   const isLoading = useSignal(true);
   const error = useSignal('');
   const videoRef = useSignal<HTMLVideoElement>();
   const isReversing = useSignal(false);
-  const reverseSpeed = 0.5;
-  let reverseRAF: number | null = null;
-  let lastFrameTime = 0;
+  const animationState = useSignal({
+    lastFrameTime: 0,
+    reverseRAF: null as number | null,
+  });
 
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ cleanup }) => {
     const video = videoRef.value;
     if (!video) return;
@@ -37,10 +37,10 @@ export default component$(() => {
       if (!isReversing.value) return;
 
       const now = performance.now();
-      const delta = (now - lastFrameTime) / 1000;
-      lastFrameTime = now;
+      const delta = (now - animationState.value.lastFrameTime) / 1000;
+      animationState.value = { ...animationState.value, lastFrameTime: now };
 
-      vid.currentTime = Math.max(0, vid.currentTime - delta * reverseSpeed);
+      vid.currentTime = Math.max(0, vid.currentTime - delta * 0.5);
 
       if (vid.currentTime <= 0) {
         isReversing.value = false;
@@ -50,13 +50,17 @@ export default component$(() => {
         return;
       }
 
-      reverseRAF = requestAnimationFrame(() => reverseLoop(vid));
+      const rafId = requestAnimationFrame(() => reverseLoop(vid));
+      animationState.value = {
+        ...animationState.value,
+        reverseRAF: rafId
+      };
     };
 
     const handleEnded = () => {
       isReversing.value = true;
       video.pause();
-      lastFrameTime = performance.now();
+      animationState.value = { ...animationState.value, lastFrameTime: performance.now() };
       reverseLoop(video);
     };
 
@@ -64,7 +68,7 @@ export default component$(() => {
 
     cleanup(() => {
       video.removeEventListener('ended', handleEnded);
-      if (reverseRAF) cancelAnimationFrame(reverseRAF);
+      if (animationState.value.reverseRAF) cancelAnimationFrame(animationState.value.reverseRAF);
       isReversing.value = false;
     });
   });
@@ -337,7 +341,7 @@ export default component$(() => {
                           gap: '6px',
                           transition: 'color 0.2s',
                         }}
-                        className="hover:text-black hover:underline hover:underline-offset-2"
+                        class="hover:text-black hover:underline hover:underline-offset-2"
                       >
                         {platform.charAt(0).toUpperCase() + platform.slice(1)}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ marginLeft: '4px' }}>

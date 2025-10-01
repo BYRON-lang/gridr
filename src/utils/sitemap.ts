@@ -3,10 +3,10 @@ import { getAllWebsitesForSitemap } from '~/services/websiteService';
 
 // Get the base URL based on the environment
 const getBaseUrl = () => {
-  if (process.env.VERCEL_URL) {
-    return 'https://gridrr.com';
+  if (import.meta.env.VITE_VERCEL_URL) {
+    return `https://${import.meta.env.VITE_VERCEL_URL}`;
   }
-  if (process.env.NODE_ENV === 'production') {
+  if (import.meta.env.MODE === 'production') {
     return 'https://gridrr.com';
   }
   return 'http://localhost:3000';

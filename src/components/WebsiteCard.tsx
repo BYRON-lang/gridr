@@ -31,6 +31,7 @@ export const WebsiteCard = component$<WebsiteCardProps>(({
   });
 
   // Handle external ref
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ track }) => {
     track(() => videoRef.value);
     if (videoRef.value && externalRef) {

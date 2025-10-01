@@ -1,9 +1,9 @@
-import { component$, useSignal, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useTask$, useVisibleTask$, useOnWindow } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import { WebsiteCard } from '~/components/WebsiteCard';
 import { getWebsites, type Website } from '~/services/websiteService';
 import { $ } from '@builder.io/qwik';
-import type { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 type SortOption = 'latest' | 'popular';
 
@@ -23,6 +23,7 @@ export default component$(() => {
   const PAGE_SIZE = 12; // Number of items to load per page
 
   // Add the spin animation for the loading spinner
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -152,25 +153,19 @@ export default component$(() => {
   });
 
   // Handle infinite scroll
-  useVisibleTask$(({ track, cleanup }) => {
-    track(() => [isLoading.value, isLoadingMore.value, hasMore.value]);
-    
-    if (isLoading.value || isLoadingMore.value || !hasMore.value) return;
+  useOnWindow(
+    'scroll',
+    $(() => {
+      if (isLoading.value || isLoadingMore.value || !hasMore.value) return;
 
-    const handleScroll = () => {
-      if (isLoadingMore.value || !hasMore.value) return;
-      
       const scrollPosition = window.innerHeight + window.scrollY;
       const bottomThreshold = document.body.offsetHeight - 500; // Start loading 500px before bottom
-      
+
       if (scrollPosition >= bottomThreshold) {
         loadWebsites(activeSort.value, true);
       }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    cleanup(() => window.removeEventListener('scroll', handleScroll));
-  });
+    })
+  );
 
   return (
     <div id="app">
@@ -439,6 +434,7 @@ export default component$(() => {
                   if (el) {
                     videoRefs.value = { ...videoRefs.value, [website.id]: el };
                   } else {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const { [website.id]: _, ...rest } = videoRefs.value;
                     videoRefs.value = rest;
                   }

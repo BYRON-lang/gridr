@@ -4,13 +4,13 @@ import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-      apiKey: "AIzaSyDVO-x7wATkpws9fgWrKNgqljqQzhpvYek",
-      authDomain: "gridrr-storage.firebaseapp.com",
-      projectId: "gridrr-storage",
-      storageBucket: "gridrr-storage.firebasestorage.app",
-      messagingSenderId: "478921294080",
-      appId: "1:478921294080:web:e12aa4e9bfc8ba3aff73e5",
-      measurementId: "G-3JND2GP4LW"
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+      appId: import.meta.env.VITE_FIREBASE_APP_ID,
+      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

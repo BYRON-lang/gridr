@@ -5,7 +5,7 @@ import { type RequestEvent } from '@builder.io/qwik-city';
 import { WebsiteCard } from '~/components/WebsiteCard';
 import { FilterTabs } from '~/components/FilterTabs';
 import { getWebsites, type Website } from '~/services/websiteService';
-import type { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+import type { DocumentData } from "firebase/firestore";
 
 export const onGet: RequestHandler = async (event: RequestEvent) => {
   // Add caching if needed

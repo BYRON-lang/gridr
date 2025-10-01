@@ -1,0 +1,24 @@
+/* Import Rethink Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+/* Apply Rethink Sans font globally */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Rethink Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html, body {
+  font-family: 'Rethink Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}

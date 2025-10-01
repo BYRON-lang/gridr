@@ -1,0 +1,13 @@
+import type { RequestHandler } from '@builder.io/qwik-city';
+
+const robotsTxt = `User-agent: *
+Allow: /
+Sitemap: ${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/sitemap.xml` : 'http://localhost:3000/sitemap.xml'}
+`;
+
+export const onGet: RequestHandler = ({ send, headers }) => {
+  headers.set('Content-Type', 'text/plain');
+  headers.set('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+  
+  send(200, robotsTxt);
+};

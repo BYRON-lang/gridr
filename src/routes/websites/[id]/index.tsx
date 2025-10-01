@@ -29,6 +29,9 @@ export default component$(() => {
   useVisibleTask$(({ cleanup }) => {
     const video = videoRef.value;
     if (!video) return;
+    
+    // Set playback rate to 0.75 (75% speed)
+    video.playbackRate = 0.75;
 
     const reverseLoop = (vid: HTMLVideoElement) => {
       if (!isReversing.value) return;
@@ -126,7 +129,6 @@ export default component$(() => {
             ref={videoRef}
             src={website.value.videoUrl}
             autoplay
-            playbackRate={0.75}
             muted
             playsInline
             style={{

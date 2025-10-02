@@ -21,7 +21,23 @@ errorOnDuplicatesPkgDeps(devDependencies, dependencies);
  */
 export default defineConfig(({ command, mode }): UserConfig => {
   return {
-    plugins: [qwikCity(), qwikVite(), tsconfigPaths({ root: "." })],
+    plugins: [
+      qwikCity(),
+      qwikVite({
+        ssr: {
+          // This ensures the entry point is properly set for SSR
+          input: 'src/entry.netlify-edge.tsx',
+        },
+      }),
+      tsconfigPaths({ root: "." })
+    ],
+    build: {
+      // Ensure we generate the client-side entry point
+      ssr: false,
+      rollupOptions: {
+        input: 'src/entry.client.tsx',
+      },
+    },
     // This tells Vite which dependencies to pre-build in dev mode.
     optimizeDeps: {
       // Put problematic deps that break bundling here, mostly those with binaries.

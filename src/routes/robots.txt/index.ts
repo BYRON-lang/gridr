@@ -2,7 +2,7 @@ import type { RequestHandler } from '@builder.io/qwik-city';
 
 const robotsTxt = `User-agent: *
 Allow: /
-Sitemap: ${import.meta.env.VITE_VERCEL_URL ? `https://${import.meta.env.VITE_VERCEL_URL}/sitemap.xml` : 'http://localhost:3000/sitemap.xml'}
+Sitemap: ${import.meta.env.VITE_VERCEL_URL ? `https://${import.meta.env.VITE_VERCEL_URL}/sitemap.xml` : '/sitemap.xml'}
 `;
 
 export const onGet: RequestHandler = ({ send, headers }) => {

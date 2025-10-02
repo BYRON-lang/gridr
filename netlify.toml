@@ -1,15 +1,13 @@
 [build]
-  command = "npm run build"
+  command = "npm run build.server && npm run build.client"
   publish = "dist"
-  functions = ".netlify/functions/"
 
 [build.environment]
   NODE_VERSION = "20.19.0"  # Minimum version required by Vite
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[[edge_functions]]
+  function = "entry.netlify-edge"
+  path = "/*"
 
 [[headers]]
   for = "/assets/*"

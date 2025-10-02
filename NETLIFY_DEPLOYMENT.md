@@ -5,7 +5,8 @@ This guide will help you deploy your Qwik application to Netlify.
 ## Prerequisites
 
 1. Netlify account (sign up at [netlify.com](https://www.netlify.com/))
-2. Netlify CLI installed (optional, for local testing)
+2. Node.js 20.19.0 or higher (required by Vite)
+3. Netlify CLI installed (optional, for local testing)
 
 ## Deployment Options
 

@@ -5,6 +5,8 @@
 [build.environment]
   NODE_VERSION = "20.19.0"  # Minimum version required by Vite
   NPM_FLAGS = "--prefix=./"
+  NODE_OPTIONS = "--max-old-space-size=4096"  # Increase memory limit
+  CI = "false"  # Disable CI-specific optimizations
 
 [dev]
   framework = "qwik"

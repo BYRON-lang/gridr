@@ -1,12 +1,14 @@
 [build]
   command = "npm install && npm run build"
   publish = "dist"
+  functions = ".netlify/functions"
 
 [build.environment]
   NODE_VERSION = "20.19.0"  # Minimum version required by Vite
   NPM_FLAGS = "--prefix=./"
   NODE_OPTIONS = "--max-old-space-size=4096"  # Increase memory limit
   CI = "false"  # Disable CI-specific optimizations
+  NETLIFY_USE_YARN = "false"  # Ensure we use npm
 
 [dev]
   framework = "qwik"
@@ -17,9 +19,10 @@
 [[edge_functions]]
   function = "entry.netlify-edge"
   path = "/*"
-  
+
 [functions]
   node_bundler = "esbuild"
+  external_node_modules = ["@netlify/edge-functions"]
 
 [[headers]]
   for = "/assets/*"
